@@ -1,6 +1,6 @@
 ccParser*
 *.class
-*.java
+cc*.java
 *.tokens
 *.interp
 .DS*

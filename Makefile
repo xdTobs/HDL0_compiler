@@ -15,7 +15,7 @@ all:
 	make grun
 
 ccLexer.java:	cc.g4
-	$(antlr4) cc.g4
+	$(antlr4) -visitor cc.g4
 
 ccLexer.class:	ccLexer.java
 	javac -cp $(classpath) $(GENERATED)
