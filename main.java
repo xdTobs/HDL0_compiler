@@ -65,73 +65,87 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitHardwareDecl(ccParser.HardwareDeclContext ctx) {
+        System.out.println("name: " + ctx.name.getText());
         return null;
     }
 
     @Override
     public String visitUpdateDecl(ccParser.UpdateDeclContext ctx) {
+        System.out.println("updatedecl!: " + ctx.u.getText());
         return null;
     }
 
     @Override
     public String visitUpdate(ccParser.UpdateContext ctx) {
+        System.out.println("update!: " + ctx.input.getText());
         return null;
     }
 
     @Override
     public String visitSimulateDecl(ccParser.SimulateDeclContext ctx) {
+        System.out.println("simudecl!: " + ctx.s.getText());
         return null;
     }
 
     @Override
     public String visitSimulate(ccParser.SimulateContext ctx) {
+        System.out.println("simu!: " + ctx.input.getText() + " value: " + ctx.value.getText());
         return null;
     }
 
     @Override
     public String visitLatchesdecl(ccParser.LatchesdeclContext ctx) {
+//        System.out.println("not!: " + ctx.s.getText());
         return null;
     }
 
     @Override
     public String visitLatches(ccParser.LatchesContext ctx) {
+//        System.out.println("not!: " + ctx.s.getText());
         return null;
     }
 
     @Override
     public String visitInputDecl(ccParser.InputDeclContext ctx) {
-        System.out.println("input: " + ctx.s.getText());
+        for (Token s : ctx.signals){
+            System.out.println("sig" + s.getText());
+        }
         return null;
     }
 
     @Override
     public String visitOutputDecl(ccParser.OutputDeclContext ctx) {
-        System.out.println("input: " + ctx.s.getText());
+//        System.out.println("output: " + ctx.s.getText());
         return null;
     }
 
     @Override
     public String visitNot(ccParser.NotContext ctx) {
+//        System.out.println("not!: " + ctx.s.getText());
         return null;
     }
 
     @Override
     public String visitSignal(ccParser.SignalContext ctx) {
+//        System.out.println("not!: " + ctx.s.getText());
         return null;
     }
 
     @Override
     public String visitOr(ccParser.OrContext ctx) {
+//        System.out.println("not!: " + ctx.s.getText());
         return null;
     }
 
     @Override
     public String visitAnd(ccParser.AndContext ctx) {
+//        System.out.println("not!: " + ctx.s.getText());
         return null;
     }
 
     @Override
     public String visitParen(ccParser.ParenContext ctx) {
+//        System.out.println("not!: " + ctx.s.getText());
         return null;
     }
 }
