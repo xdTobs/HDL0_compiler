@@ -53,6 +53,18 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitStart(ccParser.StartContext ctx) {
+        System.out.println("value: " + ctx.i.getText());
+        visit(ctx.h);
+        visit(ctx.i);
+        visit(ctx.o);
+        visit(ctx.l);
+        visit(ctx.u);
+        visit(ctx.s);
+        return null;
+    }
+
+    @Override
+    public String visitHardwareDecl(ccParser.HardwareDeclContext ctx) {
         return null;
     }
 
@@ -88,11 +100,13 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitInputDecl(ccParser.InputDeclContext ctx) {
+        System.out.println("input: " + ctx.s.getText());
         return null;
     }
 
     @Override
     public String visitOutputDecl(ccParser.OutputDeclContext ctx) {
+        System.out.println("input: " + ctx.s.getText());
         return null;
     }
 
