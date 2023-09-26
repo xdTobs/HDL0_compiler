@@ -56,12 +56,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 	}
 
 	@Override
-	public String visitModus(ccParser.ModusContext ctx) {
-		return null;
-	}
-
-	@Override
-	public String visitUpdatedecl(ccParser.UpdatedeclContext ctx) {
+	public String visitUpdateDecl(ccParser.UpdateDeclContext ctx) {
 		return null;
 	}
 
@@ -71,7 +66,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 	}
 
 	@Override
-	public String visitSimulatedecl(ccParser.SimulatedeclContext ctx) {
+	public String visitSimulateDecl(ccParser.SimulateDeclContext ctx) {
 		return null;
 	}
 
@@ -91,17 +86,37 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 	}
 
 	@Override
-	public String visitInputsdecl(ccParser.InputsdeclContext ctx) {
+	public String visitInputDecl(ccParser.InputDeclContext ctx) {
 		return null;
 	}
 
 	@Override
-	public String visitOutputsdecl(ccParser.OutputsdeclContext ctx) {
+	public String visitOutputDecl(ccParser.OutputDeclContext ctx) {
 		return null;
 	}
 
 	@Override
-	public String visitExpr(ccParser.ExprContext ctx) {
+	public String visitNot(ccParser.NotContext ctx) {
+		return null;
+	}
+
+	@Override
+	public String visitSignal(ccParser.SignalContext ctx) {
+		return null;
+	}
+
+	@Override
+	public String visitOr(ccParser.OrContext ctx) {
+		return null;
+	}
+
+	@Override
+	public String visitAnd(ccParser.AndContext ctx) {
+		return null;
+	}
+
+	@Override
+	public String visitParen(ccParser.ParenContext ctx) {
 		return null;
 	}
 }

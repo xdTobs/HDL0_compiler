@@ -6,16 +6,16 @@ start : '.inputs' i=inputsdecl '.outputs' o=outputsdecl '.latches' l=latchesdecl
 updatedecl : u=update+                            #UpdateDecl
 ;
 
-update : input=SIGNAL '=' e=expr                  #Update
+update : input=SIGNAL '=' e=expr                  
 ;
 
 simulatedecl : s=simulate+                        #SimulateDecl
 ;
-simulate :  input=SIGNAL '=' value=BINARY         #Simulate
+simulate :  input=SIGNAL '=' value=BINARY         
 ;
 
 latchesdecl : latches+ ;
-latches :  input=SIGNAL '->' output=SIGNAL       #Latch
+latches :  input=SIGNAL '->' output=SIGNAL       
 ;
 
 inputsdecl : s=SIGNAL+                            #InputDecl

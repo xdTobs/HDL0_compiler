@@ -6,3 +6,4 @@ cc*.java
 .DS*
 .idea/
 *.iml
+out/*
