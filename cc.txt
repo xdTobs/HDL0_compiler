@@ -1,3 +1,5 @@
+.hardware MyLittleHdl
+
 .inputs Button
 
 .outputs Red Yel Green PRed PGreen
