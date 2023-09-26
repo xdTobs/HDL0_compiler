@@ -1,32 +1,36 @@
 grammar cc;
 
 
-start : '.inputs' inputsdecl '.outputs' outputsdecl '.latches' latchesdecl '.update' updatedecl '.simulate' simulatedecl EOF ;
+start : '.inputs' i=inputsdecl '.outputs' o=outputsdecl '.latches' l=latchesdecl '.update' u=updatedecl '.simulate' s=simulatedecl EOF ;
 
+updatedecl : u=update+                            #UpdateDecl
+;
 
-modus: (update|simulatedecl);
+update : input=SIGNAL '=' e=expr                  #Update
+;
 
-updatedecl : update+ ;
-
-update : SIGNAL '=' expr ;
-
-simulatedecl : simulate+ ;
-simulate :  SIGNAL '=' BINARY ;
+simulatedecl : s=simulate+                        #SimulateDecl
+;
+simulate :  input=SIGNAL '=' value=BINARY         #Simulate
+;
 
 latchesdecl : latches+ ;
-latches :  SIGNAL '->' SIGNAL ;
+latches :  input=SIGNAL '->' output=SIGNAL       #Latch
+;
 
-inputsdecl : SIGNAL+ ;
+inputsdecl : s=SIGNAL+                            #InputDecl
+;
 
-outputsdecl : SIGNAL+ ;
+outputsdecl : s=SIGNAL+                          #OutputDecl
+;
 
 
 
-expr : '!' expr
-     |expr '&&' expr
-     | expr '||' expr
-     | '(' expr ')'
-     | SIGNAL
+expr : '!' e=expr             #Not
+     |e1=expr '&&' e2=expr    #And
+     | e1=expr '||' e2=expr   #Or
+     | '(' e=expr ')'         #Paren
+     | SIGNAL                 #Signal
      ;
 
 SIGNAL : [a-zA-Z][a-zA-Z1-9_]* ;
