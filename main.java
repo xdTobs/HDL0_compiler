@@ -63,75 +63,81 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
         return null;
     }
 
-    @Override
-    public String visitHardwareDecl(ccParser.HardwareDeclContext ctx) {
+
+    public String visitHardwaredecl(ccParser.HardwaredeclContext ctx) {
         return null;
     }
 
-    @Override
-    public String visitUpdateDecl(ccParser.UpdateDeclContext ctx) {
+
+    public String visitUpdateDecl(ccParser.UpdatedeclContext ctx) {
         return null;
     }
 
-    @Override
+
     public String visitUpdate(ccParser.UpdateContext ctx) {
         return null;
     }
 
-    @Override
-    public String visitSimulateDecl(ccParser.SimulateDeclContext ctx) {
+
+    public String visitSimulatedecl(ccParser.SimulatedeclContext ctx) {
         return null;
     }
 
-    @Override
+
     public String visitSimulate(ccParser.SimulateContext ctx) {
         return null;
     }
 
-    @Override
+
     public String visitLatchesdecl(ccParser.LatchesdeclContext ctx) {
         return null;
     }
 
-    @Override
+
     public String visitLatches(ccParser.LatchesContext ctx) {
         return null;
     }
 
-    @Override
-    public String visitInputDecl(ccParser.InputDeclContext ctx) {
+
+    public String visitInputsdecl(ccParser.InputsdeclContext ctx) {
         System.out.println("input: " + ctx.s.getText());
         return null;
     }
 
-    @Override
-    public String visitOutputDecl(ccParser.OutputDeclContext ctx) {
+
+    public String visitOutputsdecl(ccParser.OutputsdeclContext ctx) {
         System.out.println("input: " + ctx.s.getText());
         return null;
     }
 
-    @Override
+
     public String visitNot(ccParser.NotContext ctx) {
         return null;
     }
-
+/*
     @Override
     public String visitSignal(ccParser.SignalContext ctx) {
         return null;
     }
+*/
 
-    @Override
-    public String visitOr(ccParser.OrContext ctx) {
-        return null;
-    }
-
-    @Override
     public String visitAnd(ccParser.AndContext ctx) {
         return null;
     }
 
-    @Override
+
+    public String visitOr(ccParser.OrContext ctx) {
+        return null;
+    }
+
+
+
     public String visitParen(ccParser.ParenContext ctx) {
+        return null;
+    }
+
+
+    public String visitSignal(ccParser.SignalContext ctx) {
         return null;
     }
 }

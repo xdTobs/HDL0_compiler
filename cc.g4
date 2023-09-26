@@ -3,16 +3,16 @@ grammar cc;
 
 start : '.hardware' h=hardwaredecl '.inputs' i=inputsdecl '.outputs' o=outputsdecl '.latches' l=latchesdecl '.update' u=updatedecl '.simulate' s=simulatedecl EOF ;
 
-hardwaredecl: SIGNAL                              #HardwareDecl
+hardwaredecl: SIGNAL
 ;
 
-updatedecl : u=update+                           #UpdateDecl
+updatedecl : u=update+
 ;
 
 update : input=SIGNAL '=' e=expr
 ;
 
-simulatedecl : s=simulate+                       #SimulateDecl
+simulatedecl : s=simulate+
 ;
 simulate :  input=SIGNAL '=' value=BINARY
 ;
@@ -21,10 +21,10 @@ latchesdecl : latches+ ;
 latches :  input=SIGNAL '->' output=SIGNAL       
 ;
 
-inputsdecl : s=SIGNAL+                           #InputDecl
+inputsdecl : s=SIGNAL+
 ;
 
-outputsdecl : s=SIGNAL+                          #OutputDecl
+outputsdecl : s=SIGNAL+
 ;
 
 

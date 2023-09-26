@@ -27,6 +27,12 @@ run:	main.class
 
 grun:	ccLexer.class cc.txt
 	$(grun) cc start -gui -tokens cc.txt 
+clean: # or 'clean' is commonly used
+	rm -f ccParser*
+	rm -f *.class
+	rm -f cc*.java
+	rm -f *.tokens
+	rm -f *.interp
 
 clean:
 	rm -f ccParser*
