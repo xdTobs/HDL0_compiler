@@ -1,14 +1,14 @@
 antlrjar = antlr-4.13.0-complete.jar
 
 ###### FOR LINUX AND MAC -- uncomment the following line if you do not use Windows:
-classpath = '$(antlrjar):.'
+# classpath = '$(antlrjar):.'
 
 ###### FOR WINDOWS -- comment the following line if you do not use Windows:
-# classpath = '$(antlrjar);.'
+classpath = '$(antlrjar);.'
 
 antlr4 = java -cp $(classpath) org.antlr.v4.Tool
 grun = java -cp $(classpath) org.antlr.v4.gui.TestRig
-GENERATED = ccListener.java ccBaseListener.java ccParser.java ccLexer.java ccVisitor.java ccBaseVisitor.java
+GENERATED = ccListener.java ccBaseListener.java ccParser.java ccLexer.java
 
 all:	
 	make run
@@ -20,10 +20,17 @@ ccLexer.class:	ccLexer.java
 	javac -cp $(classpath) $(GENERATED)
 
 main.class:	ccLexer.java main.java
-	javac -cp $(classpath) $(GENERATED) main.java
+	javac $(classpathoption) $(GENERATED) main.java
 
 run:	main.class
-	java -cp $(classpath) main cc.txt
+	java main cc.txt
 
 grun:	ccLexer.class cc.txt
 	$(grun) cc start -gui -tokens cc.txt 
+
+clean:
+	rm -f ccParser*
+	rm -f *.class
+	rm -f cc*.java
+	rm -f *.tokens
+	rm -f *.interp
