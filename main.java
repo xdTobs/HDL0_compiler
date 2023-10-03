@@ -49,104 +49,79 @@ public class main {
 // sccy a String.
 
 class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<String> {
-
-
     @Override
     public String visitStart(ccParser.StartContext ctx) {
-        System.out.println("value: " + ctx.i.getText());
-        visit(ctx.h);
-        visit(ctx.i);
-        visit(ctx.o);
-        visit(ctx.l);
-        visit(ctx.u);
-        visit(ctx.s);
-        return null;
+        return "Visited Start";
     }
 
     @Override
-    public String visitHardwareDecl(ccParser.HardwareDeclContext ctx) {
-        System.out.println("name: " + ctx.name.getText());
-        return null;
+    public String visitHardwareDeclaration(ccParser.HardwareDeclarationContext ctx) {
+        return "Visited HardwareDeclaration";
     }
 
     @Override
-    public String visitUpdateDecl(ccParser.UpdateDeclContext ctx) {
-        //System.out.println("updatedecl!: " + ctx.u.getText());
-        return null;
+    public String visitUpdateDeclaration(ccParser.UpdateDeclarationContext ctx) {
+        return "Visited UpdateDeclaration";
     }
 
     @Override
     public String visitUpdate(ccParser.UpdateContext ctx) {
-        System.out.println("update!: " + ctx.input.getText());
-        return null;
+        return "Visited Update";
     }
 
     @Override
-    public String visitSimulateDecl(ccParser.SimulateDeclContext ctx) {
-        // System.out.println("simudecl!: " + ctx.s.getText());
-        return null;
+    public String visitSimulateDeclaration(ccParser.SimulateDeclarationContext ctx) {
+        return "Visited SimulateDeclaration";
     }
 
     @Override
     public String visitSimulate(ccParser.SimulateContext ctx) {
-        System.out.println("simu!: " + ctx.input.getText() + " value: " + ctx.value.getText());
-        return null;
+        return "Visited Simulate";
     }
 
     @Override
-    public String visitLatchesdecl(ccParser.LatchesdeclContext ctx) {
-//        System.out.println("not!: " + ctx.s.getText());
-        return null;
+    public String visitLatchesDeclaration(ccParser.LatchesDeclarationContext ctx) {
+        return "Visited LatchesDeclaration";
     }
 
     @Override
     public String visitLatches(ccParser.LatchesContext ctx) {
-//        System.out.println("not!: " + ctx.s.getText());
-        return null;
+        return "Visited Latches";
     }
 
     @Override
-    public String visitInputDecl(ccParser.InputDeclContext ctx) {
-        for (Token s : ctx.signals){
-            System.out.println("sig" + s.getText());
-        }
-        return null;
+    public String visitInputDeclaration(ccParser.InputDeclarationContext ctx) {
+        return "Visited InputDeclaration";
     }
 
     @Override
-    public String visitOutputDecl(ccParser.OutputDeclContext ctx) {
-//        System.out.println("output: " + ctx.s.getText());
-        return null;
+    public String visitOutputDeclaration(ccParser.OutputDeclarationContext ctx) {
+        return "Visited OutputDeclaration";
     }
 
     @Override
     public String visitNot(ccParser.NotContext ctx) {
-//        System.out.println("not!: " + ctx.s.getText());
-        return null;
+        return "Visited Not";
     }
 
     @Override
     public String visitSignal(ccParser.SignalContext ctx) {
-//        System.out.println("not!: " + ctx.s.getText());
-        return null;
+        return "Visited Signal";
     }
 
     @Override
     public String visitOr(ccParser.OrContext ctx) {
-//        System.out.println("not!: " + ctx.s.getText());
-        return null;
+        return "Visited Or";
     }
 
     @Override
     public String visitAnd(ccParser.AndContext ctx) {
-//        System.out.println("not!: " + ctx.s.getText());
-        return null;
+        return "Visited And";
     }
 
     @Override
     public String visitParen(ccParser.ParenContext ctx) {
-//        System.out.println("not!: " + ctx.s.getText());
-        return null;
+        return "Visited Paren";
     }
 }
 
