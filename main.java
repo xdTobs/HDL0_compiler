@@ -63,12 +63,16 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitUpdateDeclaration(ccParser.UpdateDeclarationContext ctx) {
-        return "\n<ul>" + ctx.updates.stream().map(this::visit).collect(Collectors.joining()) + "</ul>";
+        String result="";
+        for (ccParser.UpdateContext updateCtx: ctx.updates){
+            result += visitUpdate(updateCtx);
+        }
+        return result;
     }
 
     @Override
     public String visitUpdate(ccParser.UpdateContext ctx) {
-        return "\n<li>" + ctx.input.getText() + " = " + visit(ctx.e) + "</li>";
+        return "<li>" + ctx.input.getText() + " = " + visit(ctx.e) + "</li>";
     }
 
     @Override
