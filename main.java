@@ -119,7 +119,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitOr(ccParser.OrContext ctx) {
-        return "Visited Or";
+        return visit(ctx.e1)+"||"+visit(ctx.e2);
     }
 
     @Override
