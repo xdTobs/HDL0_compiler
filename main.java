@@ -71,7 +71,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitUpdateDecl(ccParser.UpdateDeclContext ctx) {
-        System.out.println("updatedecl!: " + ctx.u.getText());
+        //System.out.println("updatedecl!: " + ctx.u.getText());
         return null;
     }
 
@@ -83,7 +83,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitSimulateDecl(ccParser.SimulateDeclContext ctx) {
-        System.out.println("simudecl!: " + ctx.s.getText());
+        // System.out.println("simudecl!: " + ctx.s.getText());
         return null;
     }
 
