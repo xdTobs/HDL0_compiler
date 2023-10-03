@@ -17,7 +17,7 @@ simulatedecl : s+=simulate+                       #SimulateDeclaration
 simulate :  input=SIGNAL '=' value=BINARY
 ;
 
-latchesdecl : latches+                                      #LatchesDeclaration
+latchesdecl : l+=latches+                                      #LatchesDeclaration
 ;                               
 latches :  input=SIGNAL '->' output=SIGNAL
 ;

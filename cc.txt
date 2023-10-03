@@ -1,10 +1,12 @@
-.hardware helloworld
+.hardware MyLittleApp
 
 .inputs Reset
 .outputs Oscillator
 
 .latches
-Oscillator -> OscillatorM
+Oscillator1 -> OscillatorM
+Oscillator2 -> OscillatorY
+Oscillator3 -> OscillatorX
 
 .update
 

@@ -1,12 +1,13 @@
-import org.antlr.v4.runtime.tree.ParseTreeVisitor;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.RuleNode;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class main {
     public static void main(String[] args) throws IOException {
@@ -41,6 +42,10 @@ public class main {
         Interpreter interpreter = new Interpreter();
         String result = interpreter.visit(parseTree);
         System.out.println("The result is: \n" + result);
+        BufferedWriter writer = new BufferedWriter(new FileWriter("index.html"));
+        writer.write(result);
+        writer.close();
+
     }
 }
 
@@ -52,34 +57,48 @@ public class main {
 class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<String> {
     @Override
     public String visitStart(ccParser.StartContext ctx) {
+        String head = """
+                <head><title>TITLEOFTHEPAGE</title>
+                <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+                <script type="text/javascript" id="MathJax-script"
+                async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+                </script></head>
+                """;
 
-        return "<html><body>" + visitChildren(ctx) + "</body></html>";
+        return "<!DOCTYPE html><html>" + head + "<body>" + visitChildren(ctx) + "</body></html>";
     }
 
     @Override
     public String visitHardwareDeclaration(ccParser.HardwareDeclarationContext ctx) {
-        return "\n<h1>" + ctx.name.getText() + "</h1>";
+        return "<h1>" + ctx.name.getText() + "</h1>\n";
     }
 
     @Override
     public String visitUpdateDeclaration(ccParser.UpdateDeclarationContext ctx) {
-        String result="";
-        for (ccParser.UpdateContext updateCtx: ctx.updates){
-            result += visitUpdate(updateCtx);
+        StringBuilder result = new StringBuilder();
+        result.append("<h2>Inputs</h2>");
+        for (ccParser.UpdateContext updateCtx : ctx.updates) {
+            result.append(visit(updateCtx));
         }
-        return result;
+        return result.toString();
     }
 
     @Override
     public String visitUpdate(ccParser.UpdateContext ctx) {
-        String expr="";
+        String expr = "";
         expr = visit(ctx.e);
         return ctx.input.getText() + " &larr; " + expr + "<br>";
     }
 
     @Override
     public String visitSimulateDeclaration(ccParser.SimulateDeclarationContext ctx) {
-        return "\n<ul>" + ctx.s.stream().map(this::visit).collect(Collectors.joining()) + "</ul>";
+
+        StringBuilder result = new StringBuilder();
+        result.append("<h2>Simulation Inputs</h2>");
+        for (ccParser.SimulateContext simulateCtx : ctx.s) {
+            result.append(visit(simulateCtx));
+        }
+        return result.toString();
     }
 
     @Override
@@ -89,12 +108,17 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitLatchesDeclaration(ccParser.LatchesDeclarationContext ctx) {
-        return "Visited LatchesDeclaration";
+        StringBuilder result = new StringBuilder();
+        result.append("<h2>Latches</h2>");
+        for (ccParser.LatchesContext latchContext : ctx.l) {
+            result.append(visit(latchContext));
+        }
+        return result.toString();
     }
 
     @Override
     public String visitLatches(ccParser.LatchesContext ctx) {
-        return "Visited Latches";
+        return ctx.input.getText() + "&rarr;" + ctx.output.getText() + "<br>";
     }
 
     @Override
@@ -119,18 +143,19 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitOr(ccParser.OrContext ctx) {
-        return visit(ctx.e1)+"||"+visit(ctx.e2);
+        return visit(ctx.e1) + "||" + visit(ctx.e2);
     }
 
     @Override
     public String visitAnd(ccParser.AndContext ctx) {
-        return visit(ctx.e1) +"&&"+visit(ctx.e2);
+        return visit(ctx.e1) + "&&" + visit(ctx.e2);
     }
 
     @Override
     public String visitParen(ccParser.ParenContext ctx) {
         return "Visited Paren";
     }
+
     @Override
     public String visitChildren(RuleNode node) {
         StringBuilder stringBuilder = new StringBuilder();
