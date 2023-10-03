@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.CharStreams;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class main {
     public static void main(String[] args) throws IOException {
@@ -39,7 +40,7 @@ public class main {
         // Construct an interpreter and run it on the parse tree
         Interpreter interpreter = new Interpreter();
         String result = interpreter.visit(parseTree);
-        System.out.println("The result is: " + result);
+        System.out.println("The result is: \n" + result);
     }
 }
 
@@ -51,32 +52,33 @@ public class main {
 class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<String> {
     @Override
     public String visitStart(ccParser.StartContext ctx) {
-        return "Visited Start";
+
+        return "<html><body>" + visitChildren(ctx) + "</body></html>";
     }
 
     @Override
     public String visitHardwareDeclaration(ccParser.HardwareDeclarationContext ctx) {
-        return "Visited HardwareDeclaration";
+        return "\n<h1>" + ctx.name.getText() + "</h1>";
     }
 
     @Override
     public String visitUpdateDeclaration(ccParser.UpdateDeclarationContext ctx) {
-        return "Visited UpdateDeclaration";
+        return "\n<ul>" + ctx.updates.stream().map(this::visit).collect(Collectors.joining()) + "</ul>";
     }
 
     @Override
     public String visitUpdate(ccParser.UpdateContext ctx) {
-        return "Visited Update";
+        return "\n<li>" + ctx.input.getText() + " = " + visit(ctx.e) + "</li>";
     }
 
     @Override
     public String visitSimulateDeclaration(ccParser.SimulateDeclarationContext ctx) {
-        return "Visited SimulateDeclaration";
+        return "\n<ul>" + ctx.s.stream().map(this::visit).collect(Collectors.joining()) + "</ul>";
     }
 
     @Override
     public String visitSimulate(ccParser.SimulateContext ctx) {
-        return "Visited Simulate";
+        return "\n<li>" + ctx.input.getText() + " = " + ctx.value.getText() + "</li>";
     }
 
     @Override
@@ -122,6 +124,15 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
     @Override
     public String visitParen(ccParser.ParenContext ctx) {
         return "Visited Paren";
+    }
+    @Override
+    public String visitChildren(RuleNode node) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < node.getChildCount(); i++) {
+            String childVisitResult = visit(node.getChild(i));
+            stringBuilder.append(childVisitResult);
+        }
+        return stringBuilder.toString();
     }
 }
 
