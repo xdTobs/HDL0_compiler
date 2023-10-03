@@ -72,7 +72,9 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitUpdate(ccParser.UpdateContext ctx) {
-        return "<li>" + ctx.input.getText() + " = " + visit(ctx.e) + "</li>";
+        String expr="";
+        expr = visit(ctx.e);
+        return ctx.input.getText() + " &larr; " + expr + "<br>";
     }
 
     @Override
@@ -107,12 +109,12 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitNot(ccParser.NotContext ctx) {
-        return "Visited Not";
+        return "!" + visit(ctx.e);
     }
 
     @Override
     public String visitSignal(ccParser.SignalContext ctx) {
-        return "Visited Signal";
+        return ctx.getText();
     }
 
     @Override
@@ -122,7 +124,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitAnd(ccParser.AndContext ctx) {
-        return "Visited And";
+        return visit(ctx.e1) +"&&"+visit(ctx.e2);
     }
 
     @Override
