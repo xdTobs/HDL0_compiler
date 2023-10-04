@@ -1,9 +1,9 @@
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.RuleNode;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -58,112 +58,133 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
     @Override
     public String visitStart(ccParser.StartContext ctx) {
         String head = """
-                <head><title>TITLEOFTHEPAGE</title>
+                <head>
+                <title>MyLittleApp</title>
                 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-                <script type="text/javascript" id="MathJax-script"
-                async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-                </script></head>
+                <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"> </script>
+                <style>
+                    li {
+                        list-style: none;
+                    }
+                </style>
+                </head>
                 """;
 
-        return "<!DOCTYPE html><html>" + head + "<body>" + visitChildren(ctx) + "</body></html>";
+        String result = "\n\n" + visit(ctx.h) + "\n\n";
+        result += visit(ctx.i) + "\n\n";
+        result += visit(ctx.o) + "\n\n";
+        result += visit(ctx.l) + "\n\n";
+        result += visit(ctx.u) + "\n\n";
+        result += visit(ctx.s) + "\n\n";
+
+        return "<!DOCTYPE html><html>" + head + "\n<body>" + result + "</body></html>";
     }
 
     @Override
     public String visitHardwareDeclaration(ccParser.HardwareDeclarationContext ctx) {
-        return "<h1>" + ctx.name.getText() + "</h1>\n";
+        return "<h1>" + ctx.name.getText() + "</h1>";
     }
 
     @Override
     public String visitUpdateDeclaration(ccParser.UpdateDeclarationContext ctx) {
         StringBuilder result = new StringBuilder();
-        result.append("<h2>Inputs</h2>");
+        result.append("\n<h2>Updates</h2>\n");
+        result.append("<ul>\n");
         for (ccParser.UpdateContext updateCtx : ctx.updates) {
             result.append(visit(updateCtx));
         }
+        result.append("</ul>");
         return result.toString();
     }
 
     @Override
     public String visitUpdate(ccParser.UpdateContext ctx) {
-        String expr = "";
-        expr = visit(ctx.e);
-        return ctx.input.getText() + " &larr; " + expr + "<br>";
+        return "\t<li>" + ctx.input.getText() +" &larr; \\(( " + visit(ctx.e) + ")\\)</li>\n";
     }
 
     @Override
     public String visitSimulateDeclaration(ccParser.SimulateDeclarationContext ctx) {
 
         StringBuilder result = new StringBuilder();
-        result.append("<h2>Simulation Inputs</h2>");
+        result.append("<h2>Simulation inputs</h2>\n");
+        result.append("<ul>\n");
         for (ccParser.SimulateContext simulateCtx : ctx.s) {
             result.append(visit(simulateCtx));
         }
+        result.append("</ul>");
         return result.toString();
     }
 
     @Override
     public String visitSimulate(ccParser.SimulateContext ctx) {
-        return "\n<li>" + ctx.input.getText() + " = " + ctx.value.getText() + "</li>";
+        return "\t<li><b>" + ctx.input.getText() + "</b> = " + ctx.value.getText() + "</li>\n";
     }
 
     @Override
     public String visitLatchesDeclaration(ccParser.LatchesDeclarationContext ctx) {
         StringBuilder result = new StringBuilder();
-        result.append("<h2>Latches</h2>");
+        result.append("<h2>Latches</h2>\n");
+
+        result.append("<ul>\n");
         for (ccParser.LatchesContext latchContext : ctx.l) {
             result.append(visit(latchContext));
         }
+        result.append("</ul>");
         return result.toString();
     }
 
     @Override
     public String visitLatches(ccParser.LatchesContext ctx) {
-        return ctx.input.getText() + "&rarr;" + ctx.output.getText() + "<br>";
+        return "\t<li>" + ctx.input.getText() + "&rarr;" + ctx.output.getText() + "</li>\n";
     }
 
     @Override
     public String visitInputDeclaration(ccParser.InputDeclarationContext ctx) {
-        return "Visited InputDeclaration";
+        StringBuilder result = new StringBuilder();
+        result.append("<h2>Inputs</h2>\n");
+        result.append("<ul>\n");
+        for (Token signal : ctx.signals) {
+            result.append("\t<li>").append(signal.getText()).append("</li>\n");
+        }
+        result.append("</ul>");
+        return result.toString();
     }
 
     @Override
     public String visitOutputDeclaration(ccParser.OutputDeclarationContext ctx) {
-        return "Visited OutputDeclaration";
+        StringBuilder result = new StringBuilder();
+        result.append("<h2>Outputs</h2>\n");
+        result.append("<ul>\n");
+        for (Token signal : ctx.signals) {
+            result.append("\t<li>").append(signal.getText()).append("</li>\n");
+        }
+        result.append("</ul>");
+        return result.toString();
     }
 
     @Override
     public String visitNot(ccParser.NotContext ctx) {
-        return "!" + visit(ctx.e);
+        return "\\neg " + visit(ctx.e);
     }
 
     @Override
     public String visitSignal(ccParser.SignalContext ctx) {
-        return ctx.getText();
+        return "\\mathrm{" + ctx.getText() + "} ";
     }
 
     @Override
     public String visitOr(ccParser.OrContext ctx) {
-        return visit(ctx.e1) + "||" + visit(ctx.e2);
+        return visit(ctx.e1) + "\\vee " + visit(ctx.e2);
     }
 
     @Override
     public String visitAnd(ccParser.AndContext ctx) {
-        return visit(ctx.e1) + "&&" + visit(ctx.e2);
+        return visit(ctx.e1) + "\\wedge " + visit(ctx.e2);
     }
 
     @Override
     public String visitParen(ccParser.ParenContext ctx) {
-        return "Visited Paren";
-    }
-
-    @Override
-    public String visitChildren(RuleNode node) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < node.getChildCount(); i++) {
-            String childVisitResult = visit(node.getChild(i));
-            stringBuilder.append(childVisitResult);
-        }
-        return stringBuilder.toString();
+        return "( " + visit(ctx.e) + ") ";
     }
 }
 

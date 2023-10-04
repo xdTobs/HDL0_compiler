@@ -10,7 +10,8 @@ Oscillator3 -> OscillatorX
 
 .update
 
-Oscillator = !OscillatorM && !Reset
+Oscillator1 = !M && (X || !Y)
+Oscillator2 = !OscillatorM || !Reset
 
 .simulate
 Reset=0000100
