@@ -64,21 +64,25 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
                 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
                 <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"> </script>
                 <style>
+                    body {
+                        max-width: 600px;
+                        margin: auto;
+                    }
                     li {
                         list-style: none;
                     }
                 </style>
                 </head>
                 """;
-        String credit = """
-                <h2>Made By</h2>
-                <ul>
-                    <li>Henrik Zenkert</li>
-                    <li>Jakob Hansen</li>
-                    <li>Tobias Schønau</li>
-                    <li>Frederik Rolin</li>
-                </ul>
-                """;
+//        String credit = """
+//                <h2>Made By</h2>
+//                <ul>
+//                    <li>Henrik Zenkert</li>
+//                    <li>Jakob Hansen</li>
+//                    <li>Tobias Schønau</li>
+//                    <li>Frederik Rolin</li>
+//                </ul>
+//                """;
 
         String result = "\n\n" + visit(ctx.h) + "\n\n";
         result += visit(ctx.i) + "\n\n";
@@ -87,7 +91,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
         result += visit(ctx.u) + "\n\n";
         result += visit(ctx.s) + "\n\n";
 
-        return "<!DOCTYPE html><html>" + head + "\n<body>" + result + credit + "</body></html>";
+        return "<!DOCTYPE html><html>" + head + "\n<body>" + result + "</body></html>";
     }
 
     @Override
