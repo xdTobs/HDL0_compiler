@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 public class main {
     public static void main(String[] args) throws IOException {
@@ -69,6 +70,15 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
                 </style>
                 </head>
                 """;
+        String credit = """
+                <h2>Made By</h2>
+                <ul>
+                    <li>Henrik Zenkert</li>
+                    <li>Jakob Hansen</li>
+                    <li>Tobias Schønau</li>
+                    <li>Frederik Rolin</li>
+                </ul>
+                """;
 
         String result = "\n\n" + visit(ctx.h) + "\n\n";
         result += visit(ctx.i) + "\n\n";
@@ -77,7 +87,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
         result += visit(ctx.u) + "\n\n";
         result += visit(ctx.s) + "\n\n";
 
-        return "<!DOCTYPE html><html>" + head + "\n<body>" + result + "</body></html>";
+        return "<!DOCTYPE html><html>" + head + "\n<body>" + result + credit + "</body></html>";
     }
 
     @Override
@@ -99,7 +109,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitUpdate(ccParser.UpdateContext ctx) {
-        return "\t<li>" + ctx.input.getText() +" &larr; \\(( " + visit(ctx.e) + ")\\)</li>\n";
+        return "\t<li>" + ctx.input.getText() + " &larr; \\(( " + visit(ctx.e) + ")\\)</li>\n";
     }
 
     @Override
@@ -164,7 +174,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitNot(ccParser.NotContext ctx) {
-        return "\\neg " + visit(ctx.e);
+        return "( \\neg " + visit(ctx.e) + ") ";
     }
 
     @Override
@@ -174,12 +184,12 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitOr(ccParser.OrContext ctx) {
-        return visit(ctx.e1) + "\\vee " + visit(ctx.e2);
+        return "( " + visit(ctx.e1) + "\\vee " + visit(ctx.e2) + ") ";
     }
 
     @Override
     public String visitAnd(ccParser.AndContext ctx) {
-        return visit(ctx.e1) + "\\wedge " + visit(ctx.e2);
+        return "( " + visit(ctx.e1) + "\\wedge " + visit(ctx.e2) + ") ";
     }
 
     @Override
