@@ -8,7 +8,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 public class main {
     public static void main(String[] args) throws IOException {
@@ -22,6 +21,7 @@ public class main {
             System.exit(-1);
         }
         String filename = args[0];
+
 
         // open the input file
         CharStream input = CharStreams.fromFileName(filename);
@@ -43,7 +43,10 @@ public class main {
         Interpreter interpreter = new Interpreter();
         String result = interpreter.visit(parseTree);
         System.out.println("The result is: \n" + result);
-        BufferedWriter writer = new BufferedWriter(new FileWriter("index.html"));
+
+        // Write to a file called <input_filename>.html
+        String output = filename.substring(0, filename.length() - 3) + "html";
+        BufferedWriter writer = new BufferedWriter(new FileWriter(output));
         writer.write(result);
         writer.close();
 
