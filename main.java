@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -45,8 +46,9 @@ public class main {
         System.out.println("The result is: \n" + result);
 
         // Write to a file called <input_filename>.html
-        String output = filename.substring(0, filename.length() - 3) + "html";
-        BufferedWriter writer = new BufferedWriter(new FileWriter(output));
+        var f = new File(filename).toString().substring(0, filename.length() - 3) + "html";
+        FileWriter output = new FileWriter(f);
+        BufferedWriter writer = new BufferedWriter(output);
         writer.write(result);
         writer.close();
 
@@ -116,7 +118,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitUpdate(ccParser.UpdateContext ctx) {
-        return "\t<li>" + ctx.input.getText() + " &larr; \\(( " + visit(ctx.e) + ")\\)</li>\n";
+        return "\t<li>" + ctx.input.getText() + " &larr; \\( " + visit(ctx.e) + "\\)</li>\n";
     }
 
     @Override
