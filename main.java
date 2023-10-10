@@ -10,6 +10,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * @author Henrik Zenkert
+ * @author Jakob Hansen
+ * @author Tobias Schønau
+ * @author Frederik Rolin
+ */
+
 public class main {
     public static void main(String[] args) throws IOException {
 
@@ -65,38 +72,37 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
     public String visitStart(ccParser.StartContext ctx) {
         String head = """
                 <head>
-                <title>MyLittleApp</title>
-                <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-                <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"> </script>
-                <style>
-                    body {
-                        max-width: 600px;
-                        margin: auto;
-                    }
-                    li {
-                        list-style: none;
-                    }
-                </style>
+                    <title>MyLittleApp</title>
+                    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+                    <script type="text/javascript" id="MathJax-script" async
+                        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+                    </script>
+                    <style>
+                        body {
+                            max-width: 600px;
+                            margin: auto;
+                        }
+                        li {
+                            list-style: none;
+                        }
+                    </style>
                 </head>
                 """;
-//        String credit = """
-//                <h2>Made By</h2>
-//                <ul>
-//                    <li>Henrik Zenkert</li>
-//                    <li>Jakob Hansen</li>
-//                    <li>Tobias Schønau</li>
-//                    <li>Frederik Rolin</li>
-//                </ul>
-//                """;
 
-        String result = "\n\n" + visit(ctx.h) + "\n\n";
-        result += visit(ctx.i) + "\n\n";
-        result += visit(ctx.o) + "\n\n";
-        result += visit(ctx.l) + "\n\n";
-        result += visit(ctx.u) + "\n\n";
-        result += visit(ctx.s) + "\n\n";
+        String result = "\n\n" + visit(ctx.h) + "\n";
+        result += visit(ctx.i) + "\n";
+        result += visit(ctx.o) + "\n";
+        result += visit(ctx.l) + "\n";
+        result += visit(ctx.u) + "\n";
+        result += visit(ctx.s) + "\n";
 
-        return "<!DOCTYPE html><html>" + head + "\n<body>" + result + "</body></html>";
+        return "<!DOCTYPE html>\n" +
+               "<html>\n" +
+               head +
+               "\n<body>" +
+               result +
+               "</body>" +
+               "\n</html>";
     }
 
     @Override
@@ -118,7 +124,12 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitUpdate(ccParser.UpdateContext ctx) {
-        return "\t<li>" + ctx.input.getText() + " &larr; \\( " + visit(ctx.e) + "\\)</li>\n";
+        return "\t<li>\n" +
+               "\t\t<span style='display:inline-block; min-width:80px;'>" + ctx.input.getText() + "</span>\n" +
+               "\t\t&larr;&nbsp; \\(" + visit(ctx.e) + "\\)\n" +
+               "\t</li>\n";
+
+//        return "\t<li>" + ctx.input.getText() + " &larr; \\(" + visit(ctx.e) + "\\)</li>\n";
     }
 
     @Override
@@ -152,9 +163,17 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
         return result.toString();
     }
 
+    //
+//
+//
+//
     @Override
     public String visitLatches(ccParser.LatchesContext ctx) {
-        return "\t<li>" + ctx.input.getText() + "&rarr;" + ctx.output.getText() + "</li>\n";
+
+        return "\t<li>\n" +
+               "\t\t<span style='display:inline-block; min-width:80px;'>" + ctx.input.getText() + "</span>\n" +
+               "\t\t&rarr; &nbsp;" + ctx.output.getText() + "\n" +
+               "\t</li>\n ";
     }
 
     @Override
@@ -183,7 +202,7 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitNot(ccParser.NotContext ctx) {
-        return "( \\neg " + visit(ctx.e) + ") ";
+        return "(\\neg " + visit(ctx.e) + ")";
     }
 
     @Override
@@ -193,17 +212,17 @@ class Interpreter extends AbstractParseTreeVisitor<String> implements ccVisitor<
 
     @Override
     public String visitOr(ccParser.OrContext ctx) {
-        return "( " + visit(ctx.e1) + "\\vee " + visit(ctx.e2) + ") ";
+        return "(" + visit(ctx.e1) + "\\vee " + visit(ctx.e2) + ")";
     }
 
     @Override
     public String visitAnd(ccParser.AndContext ctx) {
-        return "( " + visit(ctx.e1) + "\\wedge " + visit(ctx.e2) + ") ";
+        return "(" + visit(ctx.e1) + "\\wedge " + visit(ctx.e2) + ")";
     }
 
     @Override
     public String visitParen(ccParser.ParenContext ctx) {
-        return "( " + visit(ctx.e) + ") ";
+        return "(" + visit(ctx.e) + ")";
     }
 }
 
